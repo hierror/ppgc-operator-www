@@ -161,6 +161,11 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-2.0.3.tgz#4a2868d75d6d6963e423bcf90b7fd1be343409d3"
   integrity sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==
 
+"@imagemagick/magick-wasm@^0.0.32":
+  version "0.0.32"
+  resolved "https://registry.yarnpkg.com/@imagemagick/magick-wasm/-/magick-wasm-0.0.32.tgz#1f2bdb2256474eb800166ef76bf8961863c785b7"
+  integrity sha512-+niNRuJk4ZPE9PDzBg19Kjyl+CEdAgaJBXQSFXmO1CTDoYOxrZ3DBdstfs1+8r77hjoiph+4Wu4qpldfcrKm7A==
+
 "@img/sharp-darwin-arm64@0.33.5":
   version "0.33.5"
   resolved "https://registry.yarnpkg.com/@img/sharp-darwin-arm64/-/sharp-darwin-arm64-0.33.5.tgz#ef5b5a07862805f1e8145a377c8ba6e98813ca08"
