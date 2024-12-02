@@ -1,6 +1,5 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import PageContainer from '@/components/layout/page-container';
-import EmployeeTable from '../employee-tables';
 import { buttonVariants } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
@@ -10,6 +9,7 @@ import { searchParamsCache } from '@/lib/searchparams';
 import { cn } from '@/lib/utils';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
+import EmployeeTable from '../employee-tables';
 
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
@@ -20,6 +20,8 @@ type TEmployeeListingPage = {};
 
 export default async function EmployeeListingPage({}: TEmployeeListingPage) {
   // Showcasing the use of search params cache in nested RSCs
+  console.log(searchParamsCache);
+
   const page = searchParamsCache.get('page');
   const search = searchParamsCache.get('q');
   const gender = searchParamsCache.get('gender');
