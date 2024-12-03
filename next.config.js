@@ -2,6 +2,11 @@
 const nextConfig = {
   images: {
     domains: ['utfs.io', 'api.slingacademy.com']
+  },
+  webpack: {
+    experiments: {
+      asyncWebAssembly: true
+    }
   }
 };
 

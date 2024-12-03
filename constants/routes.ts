@@ -7,8 +7,8 @@ const Routes: RouteMap = {
   dashboard: '/dashboard',
   employee: '/dashboard/employee',
   product: '/dashboard/product',
-  accountProfile: '/dashboard/profile',
-  accountLogin: '/login',
+  profile: '/dashboard/profile',
+  login: '/login',
   kanban: '/dashboard/kanban',
   test: '/dashboard/test'
 };
