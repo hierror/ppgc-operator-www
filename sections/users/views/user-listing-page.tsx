@@ -3,65 +3,72 @@ import PageContainer from '@/components/layout/page-container';
 import { buttonVariants } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
-import { Selections } from '@/database/entity';
+import { Profiles } from '@/database/entity';
 import { searchParamsCache } from '@/lib/searchparams';
 import { createRootClient } from '@/lib/supabase/server';
 import { cn } from '@/lib/utils';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
-import SelectionTable from '../selection-tables';
+import UsersTable from '../users-tables';
 
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
-  { title: 'Processos seletivos', link: '/dashboard/selection' }
+  { title: 'Employee', link: '/dashboard/employee' }
 ];
 
-type SelectionListingPage = {};
+type TEmployeeListingPage = {};
 
-export default async function SelectionListingPage({}: SelectionListingPage) {
+export default async function UserListingPage({}: TEmployeeListingPage) {
+  // Showcasing the use of search params cache in nested RSCs
+  console.log(searchParamsCache);
+
   const page = searchParamsCache.get('page');
   const search = searchParamsCache.get('q');
+  const gender = searchParamsCache.get('gender');
   const pageLimit = searchParamsCache.get('limit');
-  const categories = searchParamsCache.get('categories');
 
   const filters = {
     page,
     limit: pageLimit,
     ...(search && { search }),
-    ...(categories && { categories: categories })
+    ...(gender && { genders: gender })
   };
-
-  // const totalProducts = data.total_products;
-  // const products: Product[] = data.products;
 
   const root = await createRootClient();
 
   const { data } = await root
-    .from('Selection')
-    .select('uuid, description, year, start_date, end_date, Applicant(count)');
+    .from('Profile')
+    .select('uuid, name, surname, email, Role:role_id(id, name)');
 
-  console.log('pegou  no listing', Selections(data!));
+  console.log('pegou  no listing', Profiles(data!));
 
-  const selections = Selections(data!);
+  const profiles = Profiles(data!);
+
+  // mock api call
+  // const data = await fakeUsers.getUsers(filters);
+  // const totalUsers = data.total_users;
+  // const employee: Employee[] = data.users;
 
   return (
-    <PageContainer>
+    <PageContainer scrollable>
       <div className="space-y-4">
         <Breadcrumbs items={breadcrumbItems} />
+
         <div className="flex items-start justify-between">
           <Heading
-            title={`Processos seletivos (${selections?.length})`}
-            description="Gerenciamento de processos seletivos"
+            title={`Usuários (${profiles.length})`}
+            description="Gerenciar usuários"
           />
+
           <Link
-            href={'/dashboard/selection/new'}
-            className={cn(buttonVariants(), 'text-xs md:text-sm')}
+            href={'/dashboard/users/new'}
+            className={cn(buttonVariants({ variant: 'default' }))}
           >
-            <Plus className="mr-2 h-4 w-4" /> Cadastrar novo processo seletivo
+            <Plus className="mr-2 h-4 w-4" /> Criar novo usuário
           </Link>
         </div>
         <Separator />
-        <SelectionTable data={selections} totalData={selections?.length!} />
+        <UsersTable data={profiles} totalData={profiles.length} />
       </div>
     </PageContainer>
   );

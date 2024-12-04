@@ -1,5 +1,5 @@
 import { Product } from '@/constants/data';
-import { ArrowRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 interface CellActionProps {
   data: Product;
@@ -14,7 +14,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   return (
     <>
-      <ArrowRight className="mr-2 h-4 w-4" />
+      <ChevronRight className="mr-2 h-4 w-4" />
     </>
   );
 };

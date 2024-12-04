@@ -2,8 +2,6 @@ import { Roles } from '@/constants/enums';
 import { formatter } from '@/lib/date';
 
 export const Profile = (profile: any) => {
-  console.log(profile);
-
   return {
     uuid: profile.uuid,
     name: profile.name,
@@ -12,6 +10,17 @@ export const Profile = (profile: any) => {
     full_name: `${profile.name} ${profile.surname}`,
     role: Roles[profile.Role.id]
   };
+};
+
+export const Profiles = (profiles: any) => {
+  return profiles.map((profile: any) => ({
+    uuid: profile.uuid,
+    name: profile.name,
+    surname: profile.surname,
+    email: profile.email,
+    full_name: `${profile.name} ${profile.surname}`,
+    role: Roles[profile.Role.id]
+  }));
 };
 
 export const Selections = (selections: any[]) => {
