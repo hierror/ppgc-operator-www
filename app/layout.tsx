@@ -31,7 +31,7 @@ export default async function RootLayout({
     .from('Profile')
     .select('uuid, name, surname, Role:role_id(id, name)')
     .eq('uuid', user?.id);
-  const [body] = data!;
+  const [body] = data! ?? [];
   const session = { email: user?.email, ...body };
 
   return (
