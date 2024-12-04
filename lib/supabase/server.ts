@@ -1,4 +1,5 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import { createServerClient } from '@supabase/ssr';
+import { createClient as defaultCreateClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 
 export async function createClient() {
@@ -6,7 +7,7 @@ export async function createClient() {
 
   return createServerClient(
     process.env.SUPABASE_URL!,
-    process.env.SUPABASE_ROOT_KEY!,
+    process.env.SUPABASE_PUBLIC_KEY!,
     {
       cookies: {
         getAll() {
@@ -25,5 +26,12 @@ export async function createClient() {
         }
       }
     }
+  );
+}
+
+export async function createRootClient() {
+  return defaultCreateClient(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_ROOT_KEY!
   );
 }

@@ -129,6 +129,12 @@ export const navItems: NavItem[] = [
     label: 'Dashboard'
   },
   {
+    title: 'Processos seletivos',
+    href: '/dashboard/selection',
+    icon: 'user',
+    label: 'employee'
+  },
+  {
     title: 'Employee',
     href: '/dashboard/employee',
     icon: 'user',

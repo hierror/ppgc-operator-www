@@ -21,10 +21,10 @@ import {
 } from '@radix-ui/react-icons';
 import {
   ColumnDef,
+  PaginationState,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
-  PaginationState,
   useReactTable
 } from '@tanstack/react-table';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
@@ -146,22 +146,22 @@ export function DataTable<TData, TValue>({
           <div className="flex-1 text-sm text-muted-foreground">
             {totalItems > 0 ? (
               <>
-                Showing{' '}
-                {paginationState.pageIndex * paginationState.pageSize + 1} to{' '}
+                Registros{' '}
+                {paginationState.pageIndex * paginationState.pageSize + 1} a{' '}
                 {Math.min(
                   (paginationState.pageIndex + 1) * paginationState.pageSize,
                   totalItems
                 )}{' '}
-                of {totalItems} entries
+                de {totalItems}
               </>
             ) : (
-              'No entries found'
+              'Nenhum processo seletivo encontrado'
             )}
           </div>
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8">
             <div className="flex items-center space-x-2">
               <p className="whitespace-nowrap text-sm font-medium">
-                Rows per page
+                Linhas por página
               </p>
               <Select
                 value={`${paginationState.pageSize}`}
@@ -187,10 +187,10 @@ export function DataTable<TData, TValue>({
           <div className="flex w-[150px] items-center justify-center text-sm font-medium">
             {totalItems > 0 ? (
               <>
-                Page {paginationState.pageIndex + 1} of {table.getPageCount()}
+                Página {paginationState.pageIndex + 1} de {table.getPageCount()}
               </>
             ) : (
-              'No pages'
+              'Sem páginas'
             )}
           </div>
           <div className="flex items-center space-x-2">

@@ -1,10 +1,6 @@
-import { AreaGraph } from '../area-graph';
-import { BarGraph } from '../bar-graph';
-import { PieGraph } from '../pie-graph';
-import { CalendarDateRangePicker } from '@/components/date-range-picker';
+'use client';
+
 import PageContainer from '@/components/layout/page-container';
-import { RecentSales } from '../recent-sales';
-import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -12,28 +8,23 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
+import { getSession } from '@/lib/storage';
+import { BarGraph } from '../bar-graph';
+import { RecentSales } from '../recent-sales';
 
 export default function OverViewPage() {
+  const session = getSession();
+
   return (
     <PageContainer scrollable>
       <div className="space-y-2">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-2xl font-bold tracking-tight">
-            Hi, Welcome back 👋
+            Bem-vindo(a), {session?.name}!
           </h2>
-          <div className="hidden items-center space-x-2 md:flex">
-            <CalendarDateRangePicker />
-            <Button>Download</Button>
-          </div>
         </div>
-        <Tabs defaultValue="overview" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="analytics" disabled>
-              Analytics
-            </TabsTrigger>
-          </TabsList>
+        <Tabs defaultValue="overview" className="space-y-2">
           <TabsContent value="overview" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <Card>
