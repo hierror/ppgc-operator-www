@@ -1,12 +1,9 @@
 'use client';
-import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 import { Task, useTaskStore } from '@/lib/store';
 import { hasDraggableData } from '@/lib/utils';
 import {
   Announcements,
   DndContext,
-  DragOverlay,
   MouseSensor,
   TouchSensor,
   UniqueIdentifier,
@@ -17,10 +14,10 @@ import {
   type DragStartEvent
 } from '@dnd-kit/core';
 import { SortableContext, arrayMove } from '@dnd-kit/sortable';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import type { Column } from './board-column';
 import { BoardColumn, BoardContainer } from './board-column';
 import NewSectionDialog from './new-section-dialog';
-import { TaskCard } from './task-card';
 // import { coordinateGetter } from "./multipleContainersKeyboardPreset";
 
 const defaultCols = [
@@ -207,7 +204,7 @@ export function KanbanBoard() {
         </SortableContext>
       </BoardContainer>
 
-      {'document' in window &&
+      {/* {'document' in window &&
         createPortal(
           <DragOverlay>
             {activeColumn && (
@@ -220,7 +217,7 @@ export function KanbanBoard() {
             {activeTask && <TaskCard task={activeTask} isOverlay />}
           </DragOverlay>,
           document.body
-        )}
+        )} */}
     </DndContext>
   );
 

@@ -11,6 +11,7 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -98,6 +99,11 @@ export default function SelectionForm() {
                         placeholder="Insira a data de início"
                         type="date"
                         {...field}
+                        value={
+                          field.value instanceof Date
+                            ? field.value.toISOString().split('T')[0]
+                            : field.value
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -115,6 +121,11 @@ export default function SelectionForm() {
                         placeholder="Insira a data de fim"
                         type="date"
                         {...field}
+                        value={
+                          field.value instanceof Date
+                            ? field.value.toISOString().split('T')[0]
+                            : field.value
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -122,6 +133,23 @@ export default function SelectionForm() {
                 )}
               />
             </div>
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Enter product description"
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <Button type="submit">Add Product</Button>
           </form>
         </Form>
