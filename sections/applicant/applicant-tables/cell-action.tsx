@@ -13,7 +13,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   // const onConfirm = async () => {};
 
   return (
-    <Link href={`/dashboard/selection/${data.uuid}`}>
+    <Link href={`/dashboard/applicant/${data.uuid}`}>
       <ChevronRight className="mr-2 h-4 w-4" />
     </Link>
   );

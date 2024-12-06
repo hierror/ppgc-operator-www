@@ -9,8 +9,6 @@ import { SignInWithPasswordCredentials } from '@supabase/supabase-js';
 export async function login(data: SignInWithPasswordCredentials) {
   const supabase = await createClient();
 
-  console.log(process.env.SUPABASE_URL, supabase);
-
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {

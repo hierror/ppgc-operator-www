@@ -22,6 +22,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
+import { create } from '@/actions/users';
 import { Roles } from '@/constants/enums';
 
 const formSchema = z.object({
@@ -45,6 +46,7 @@ export default function UserForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    create(values);
     console.log(values);
   }
 

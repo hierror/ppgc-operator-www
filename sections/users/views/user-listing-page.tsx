@@ -61,7 +61,7 @@ export default async function UserListingPage({}: TEmployeeListingPage) {
           />
 
           <Link
-            href={'/dashboard/users/new'}
+            href={'/dashboard/applicant/new'}
             className={cn(buttonVariants({ variant: 'default' }))}
           >
             <Plus className="mr-2 h-4 w-4" /> Criar novo usuário

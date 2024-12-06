@@ -1,17 +1,4 @@
-'use client';
-import {
-  ColumnDef,
-  PaginationState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  useReactTable
-} from '@tanstack/react-table';
-import React from 'react';
-
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import {
   Select,
@@ -32,160 +19,93 @@ import {
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon
 } from '@radix-ui/react-icons';
+import {
+  ColumnDef,
+  PaginationState,
+  flexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable
+} from '@tanstack/react-table';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { parseAsInteger, useQueryState } from 'nuqs';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  searchKey: string;
-  pageNo: number;
-  totalUsers: number;
+  totalItems: number;
   pageSizeOptions?: number[];
-  pageCount: number;
-  searchParams?: {
-    [key: string]: string | string[] | undefined;
-  };
 }
 
-export function EmployeeTable<TData, TValue>({
+export function SelectionsTable<TData, TValue>({
   columns,
   data,
-  pageNo,
-  searchKey,
-  totalUsers,
-  pageCount,
+  totalItems,
   pageSizeOptions = [10, 20, 30, 40, 50]
 }: DataTableProps<TData, TValue>) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  // Search params
-  const page = searchParams?.get('page') ?? '1';
-  const pageAsNumber = Number(page);
-  const fallbackPage =
-    isNaN(pageAsNumber) || pageAsNumber < 1 ? 1 : pageAsNumber;
-  const per_page = searchParams?.get('limit') ?? '10';
-  const perPageAsNumber = Number(per_page);
-  const fallbackPerPage = isNaN(perPageAsNumber) ? 10 : perPageAsNumber;
-
-  /* this can be used to get the selectedrows 
-  console.log("value", table.getFilteredSelectedRowModel()); */
-
-  // Create query string
-  const createQueryString = React.useCallback(
-    (params: Record<string, string | number | null>) => {
-      const newSearchParams = new URLSearchParams(searchParams?.toString());
-
-      for (const [key, value] of Object.entries(params)) {
-        if (value === null) {
-          newSearchParams.delete(key);
-        } else {
-          newSearchParams.set(key, String(value));
-        }
-      }
-
-      return newSearchParams.toString();
-    },
-    [searchParams]
+  const [currentPage, setCurrentPage] = useQueryState(
+    'page',
+    parseAsInteger.withOptions({ shallow: false }).withDefault(1)
+  );
+  const [pageSize, setPageSize] = useQueryState(
+    'limit',
+    parseAsInteger
+      .withOptions({ shallow: false, history: 'push' })
+      .withDefault(10)
   );
 
-  // Handle server-side pagination
-  const [{ pageIndex, pageSize }, setPagination] =
-    React.useState<PaginationState>({
-      pageIndex: fallbackPage - 1,
-      pageSize: fallbackPerPage
-    });
+  const paginationState = {
+    pageIndex: currentPage - 1, // zero-based index for React Table
+    pageSize: pageSize
+  };
 
-  React.useEffect(() => {
-    router.push(
-      `${pathname}?${createQueryString({
-        page: pageIndex + 1,
-        limit: pageSize
-      })}`,
-      {
-        scroll: false
-      }
-    );
+  const pageCount = Math.ceil(totalItems / pageSize);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageIndex, pageSize]);
+  const handlePaginationChange = (
+    updaterOrValue:
+      | PaginationState
+      | ((old: PaginationState) => PaginationState)
+  ) => {
+    const pagination =
+      typeof updaterOrValue === 'function'
+        ? updaterOrValue(paginationState)
+        : updaterOrValue;
+
+    setCurrentPage(pagination.pageIndex + 1); // converting zero-based index to one-based
+    setPageSize(pagination.pageSize);
+  };
 
   const table = useReactTable({
     data,
     columns,
-    pageCount: pageCount ?? -1,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
+    pageCount: pageCount,
     state: {
-      pagination: { pageIndex, pageSize }
+      pagination: paginationState
     },
-    onPaginationChange: setPagination,
+    onPaginationChange: handlePaginationChange,
+    getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     manualPagination: true,
     manualFiltering: true
   });
 
-  const searchValue = table.getColumn(searchKey)?.getFilterValue() as string;
-
-  React.useEffect(() => {
-    if (searchValue?.length > 0) {
-      router.push(
-        `${pathname}?${createQueryString({
-          page: null,
-          limit: null,
-          search: searchValue
-        })}`,
-        {
-          scroll: false
-        }
-      );
-    }
-    if (searchValue?.length === 0 || searchValue === undefined) {
-      router.push(
-        `${pathname}?${createQueryString({
-          page: null,
-          limit: null,
-          search: null
-        })}`,
-        {
-          scroll: false
-        }
-      );
-    }
-
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchValue]);
-
   return (
-    <>
-      <Input
-        placeholder={`Search ${searchKey}...`}
-        value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ''}
-        onChange={(event) =>
-          table.getColumn(searchKey)?.setFilterValue(event.target.value)
-        }
-        className="w-full md:max-w-sm"
-      />
-      <ScrollArea className="h-[calc(80vh-220px)] rounded-md border">
+    <div className="space-y-4">
+      <ScrollArea className="h-[calc(80vh-220px)] rounded-md border md:h-[calc(80dvh-200px)]">
         <Table className="relative">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -224,24 +144,33 @@ export function EmployeeTable<TData, TValue>({
       <div className="flex flex-col items-center justify-end gap-2 space-x-2 py-4 sm:flex-row">
         <div className="flex w-full items-center justify-between">
           <div className="flex-1 text-sm text-muted-foreground">
-            {table.getFilteredSelectedRowModel().rows.length} of{' '}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
+            {totalItems > 0 ? (
+              <>
+                Registros{' '}
+                {paginationState.pageIndex * paginationState.pageSize + 1} a{' '}
+                {Math.min(
+                  (paginationState.pageIndex + 1) * paginationState.pageSize,
+                  totalItems
+                )}{' '}
+                de {totalItems}
+              </>
+            ) : (
+              'Nenhum registro encontrado'
+            )}
           </div>
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8">
             <div className="flex items-center space-x-2">
               <p className="whitespace-nowrap text-sm font-medium">
-                Rows per page
+                Linhas por página
               </p>
               <Select
-                value={`${table.getState().pagination.pageSize}`}
+                value={`${paginationState.pageSize}`}
                 onValueChange={(value) => {
                   table.setPageSize(Number(value));
                 }}
               >
                 <SelectTrigger className="h-8 w-[70px]">
-                  <SelectValue
-                    placeholder={table.getState().pagination.pageSize}
-                  />
+                  <SelectValue placeholder={paginationState.pageSize} />
                 </SelectTrigger>
                 <SelectContent side="top">
                   {pageSizeOptions.map((pageSize) => (
@@ -255,9 +184,14 @@ export function EmployeeTable<TData, TValue>({
           </div>
         </div>
         <div className="flex w-full items-center justify-between gap-2 sm:justify-end">
-          <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-            Page {table.getState().pagination.pageIndex + 1} of{' '}
-            {table.getPageCount()}
+          <div className="flex w-[150px] items-center justify-center text-sm font-medium">
+            {totalItems > 0 ? (
+              <>
+                Página {paginationState.pageIndex + 1} de {table.getPageCount()}
+              </>
+            ) : (
+              'Sem páginas'
+            )}
           </div>
           <div className="flex items-center space-x-2">
             <Button
@@ -299,6 +233,6 @@ export function EmployeeTable<TData, TValue>({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

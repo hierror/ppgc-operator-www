@@ -1,6 +1,6 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import PageContainer from '@/components/layout/page-container';
-import { buttonVariants } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
 import { Selections } from '@/database/entity';
@@ -8,7 +8,6 @@ import { searchParamsCache } from '@/lib/searchparams';
 import { createRootClient } from '@/lib/supabase/server';
 import { cn } from '@/lib/utils';
 import { Plus } from 'lucide-react';
-import Link from 'next/link';
 import SelectionTable from '../selection-tables';
 
 const breadcrumbItems = [
@@ -40,8 +39,6 @@ export default async function SelectionListingPage({}: SelectionListingPage) {
     .from('Selection')
     .select('uuid, description, year, start_date, end_date, Applicant(count)');
 
-  console.log('pegou  no listing', Selections(data!));
-
   const selections = Selections(data!);
 
   return (
@@ -53,12 +50,12 @@ export default async function SelectionListingPage({}: SelectionListingPage) {
             title={`Processos seletivos (${selections?.length})`}
             description="Gerenciamento de processos seletivos"
           />
-          <Link
-            href={'/dashboard/selection/new'}
+          <Button
             className={cn(buttonVariants(), 'text-xs md:text-sm')}
+            disabled
           >
             <Plus className="mr-2 h-4 w-4" /> Cadastrar novo processo seletivo
-          </Link>
+          </Button>
         </div>
         <Separator />
         <SelectionTable data={selections} totalData={selections?.length!} />

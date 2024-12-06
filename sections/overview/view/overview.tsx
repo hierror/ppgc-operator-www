@@ -9,21 +9,13 @@ import {
   CardTitle
 } from '@/components/ui/card';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-import { getSession } from '@/lib/storage';
 import { BarGraph } from '../bar-graph';
 import { RecentSales } from '../recent-sales';
 
 export default function OverViewPage() {
-  const session = getSession();
-
   return (
     <PageContainer scrollable>
       <div className="space-y-2">
-        <div className="flex items-center justify-between space-y-2">
-          <h2 className="text-2xl font-bold tracking-tight">
-            Bem-vindo(a), {session?.name}!
-          </h2>
-        </div>
         <Tabs defaultValue="overview" className="space-y-2">
           <TabsContent value="overview" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

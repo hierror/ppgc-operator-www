@@ -155,7 +155,7 @@ export function DataTable<TData, TValue>({
                 de {totalItems}
               </>
             ) : (
-              'Nenhum processo seletivo encontrado'
+              'Nenhum registro encontrado'
             )}
           </div>
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8">

@@ -2,9 +2,8 @@
 // 🛑 Nothing in here has anything to do with Nextjs, it's just a fake database
 ////////////////////////////////////////////////////////////////////////////////
 
-import { matchSorter } from 'match-sorter'; // For filtering
-import sortBy from 'sort-by'; // For sorting
 import { faker } from '@faker-js/faker';
+import { matchSorter } from 'match-sorter'; // For filtering
 
 // Define the shape of User data
 
@@ -156,7 +155,6 @@ export const fakeUsers = {
     search?: string;
   }) {
     const gendersArray = genders ? genders.split('.') : [];
-    console.log('gendersArray', gendersArray);
     const allUsers = await this.getAll({ genders: gendersArray, search });
     const totalUsers = allUsers.length;
 

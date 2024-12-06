@@ -1,4 +1,5 @@
 'use client';
+import { logout } from '@/actions/auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -8,13 +9,23 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import Routes from '@/constants/routes';
 import { getSession } from '@/lib/storage';
+import { useRouter } from 'next/navigation';
 
 export function UserNav() {
+  const router = useRouter();
   const session = getSession();
+
+  const signOut = async () => {
+    const error = await logout();
+
+    console.log(error);
+
+    router.push(Routes.login);
+  };
 
   if (session) {
     return (
@@ -43,16 +54,10 @@ export function UserNav() {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem>
-              Perfil
-              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-            </DropdownMenuItem>
+            <DropdownMenuItem>Perfil</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => {}}>
-            Sair
-            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-          </DropdownMenuItem>
+          <DropdownMenuItem onClick={signOut}>Sair</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );

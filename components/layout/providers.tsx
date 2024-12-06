@@ -12,11 +12,13 @@ export default function Providers({
   children: React.ReactNode;
 }) {
   useEffect(() => {
-    const oldSession = getSession();
+    (async () => {
+      const oldSession = getSession();
 
-    if (oldSession === null) {
-      saveSession(session);
-    }
+      if (oldSession === null) {
+        await saveSession(session);
+      }
+    })();
   }, [session]);
 
   return (

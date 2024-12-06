@@ -121,61 +121,28 @@ export type Product = {
   updated_at: string;
 };
 
+export type Applicant = {
+  status: string;
+};
+
 export const navItems: NavItem[] = [
   {
-    title: 'Dashboard',
+    title: 'Início',
     href: '/dashboard',
     icon: 'dashboard',
-    label: 'Dashboard'
+    label: 'inicio'
   },
   {
     title: 'Processos seletivos',
     href: '/dashboard/selection',
-    icon: 'user',
-    label: 'employee'
+    icon: 'clipboard-list',
+    label: 'processos'
   },
   {
     title: 'Usuários',
     href: '/dashboard/users',
     icon: 'user',
-    label: 'employee'
-  },
-  {
-    title: 'Employee',
-    href: '/dashboard/employee',
-    icon: 'user',
-    label: 'employee'
-  },
-  {
-    title: 'Product',
-    href: '/dashboard/product',
-    icon: 'product',
-    label: 'product'
-  },
-  {
-    title: 'Account',
-    icon: 'user',
-    label: 'account',
-    children: [
-      {
-        title: 'Profile',
-        href: '/dashboard/profile',
-        icon: 'userPen',
-        label: 'profile'
-      },
-      {
-        title: 'Login',
-        href: '/',
-        icon: 'login',
-        label: 'login'
-      }
-    ]
-  },
-  {
-    title: 'Kanban',
-    href: '/dashboard/kanban',
-    icon: 'kanban',
-    label: 'kanban'
+    label: 'usuarios'
   },
   {
     title: 'Test',

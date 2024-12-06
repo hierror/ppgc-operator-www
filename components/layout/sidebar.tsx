@@ -24,7 +24,7 @@ export default function Sidebar({ className }: SidebarProps) {
         className
       )}
     >
-      <div className="hidden p-5 pt-10 lg:block">
+      <div className="hidden p-5 pt-10 lg:block overflow-hidden">
         <svg
           width="103"
           height="26"
