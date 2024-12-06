@@ -15,8 +15,6 @@ export default function EmployeeTable({
   totalData: number;
 }) {
   const {
-    genderFilter,
-    setGenderFilter,
     isAnyFilterActive,
     resetFilters,
     searchQuery,

@@ -57,7 +57,9 @@ export function UserNav() {
             <DropdownMenuItem>Perfil</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={signOut}>Sair</DropdownMenuItem>
+          <DropdownMenuItem onClick={signOut} className="cursor-pointer">
+            Sair
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );

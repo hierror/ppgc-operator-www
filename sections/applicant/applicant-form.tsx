@@ -1,5 +1,6 @@
 'use client';
 
+import { create } from '@/actions/applicant';
 import { FileUploader } from '@/components/file-uploader';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,7 +20,9 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
+import Routes from '@/constants/routes';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -41,6 +44,7 @@ const formSchema = z.object({
 });
 
 export default function ApplicantForm({ selections }: any) {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -55,8 +59,12 @@ export default function ApplicantForm({ selections }: any) {
     }
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { data, error } = await create(values);
+
+    if (!error) {
+      router.push(Routes.selection);
+    }
   }
 
   return (

@@ -9,7 +9,7 @@ import { createRootClient } from '@/lib/supabase/server';
 import { cn } from '@/lib/utils';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
-import UsersTable from '../users-tables';
+import UsersTable from '../user-tables';
 
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },

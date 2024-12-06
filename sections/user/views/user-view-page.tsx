@@ -4,8 +4,8 @@ import UserForm from '../user-form';
 
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
-  { title: 'Usuários', link: '/dashboard/users' },
-  { title: 'Criação', link: '/dashboard/users/create' }
+  { title: 'Usuários', link: '/dashboard/user' },
+  { title: 'Criação', link: '/dashboard/user/create' }
 ];
 
 export default function UserViewPage() {

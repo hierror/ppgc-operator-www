@@ -22,7 +22,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { create } from '@/actions/users';
+import { create } from '@/actions/user';
 import { Roles } from '@/constants/enums';
 
 const formSchema = z.object({

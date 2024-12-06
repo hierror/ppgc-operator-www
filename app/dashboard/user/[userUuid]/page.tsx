@@ -1,4 +1,4 @@
-import { UserViewPage } from '@/sections/users/views';
+import { UserViewPage } from '@/sections/user/views';
 
 export const metadata = {
   title: 'Visão do usuário'

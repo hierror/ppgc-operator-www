@@ -10,7 +10,8 @@ const Routes: RouteMap = {
   profile: '/dashboard/profile',
   login: '/login',
   kanban: '/dashboard/kanban',
-  test: '/dashboard/test'
+  test: '/dashboard/test',
+  selection: '/dashboard/selection'
 };
 
 export default Routes;
